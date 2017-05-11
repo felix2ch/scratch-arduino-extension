@@ -498,11 +498,24 @@
       tryNextDevice();
   };
 
+var onGetDevices = function(ports) {
+
+for (var i=0; i<ports.length; i++) {
+
+    // show me some output
+    console.log(ports[i].path);
+
+    // Connect to the serial port /dev/ttyUSB0
+//    chrome.serial.connect(ports[i].path, {bitrate: 9600}, onConnect);   
+  }
+}
   var poller = null;
   var watchdog = null;
   function tryNextDevice() {
     device = potentialDevices.shift();
     if (!device) return;
+
+chrome.serial.getDevices(onGetDevices);
 
     device.open({ stopBits: 0, bitRate: 57600, ctsFlowControl: 0 });
     console.log('Attempting connection with ' + device.id);
